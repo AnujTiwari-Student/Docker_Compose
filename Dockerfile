@@ -3,9 +3,8 @@ FROM node:22-alpine AS build
 WORKDIR /app
 
 COPY package*.json ./
-COPY ./prisma ./prisma
 
-RUN npm install
+RUN npm ci
 
 COPY . .
 
@@ -15,15 +14,11 @@ FROM node:22-alpine AS prod
 
 WORKDIR /app
 
-COPY --from=Build /app/package*.json ./
-
+COPY --from=build /app/package*.json .
 RUN npm install --only=production
 
-COPY --from=Build /app/dist ./dist
-COPY --from=Build /app/prisma ./prisma
-COPY --from=Build /app/node_modules/ .
-
-COPY . .
+COPY --from=build /app/dist ./dist
+COPY --from=build /app/prisma ./prisma
 
 EXPOSE 3000
 

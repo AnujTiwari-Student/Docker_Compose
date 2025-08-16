@@ -5,6 +5,8 @@ services:
       - "5432:5432"
     environment:
       - POSTGRES_PASSWORD=PLMqaz2901
+      - POSTGRES_USER=anuj
+      - POSTGRES_DB=practice
     volumes:
       - postgres_data:/var/lib/postgresql/data
 
@@ -14,12 +16,10 @@ services:
       dockerfile: Dockerfile
     ports:
       - "3000:3000"
-    volumes:
-      - .:/app
     depends_on:
       - postgres
     environment:
-      - DATABASE_URL=postgres://postgres:PLMqaz2901@postgres:5432/postgres
+      - DATABASE_URL=postgres://anuj:PLMqaz2901@postgres:5432/practice
 
 volumes:
   postgres_data:
